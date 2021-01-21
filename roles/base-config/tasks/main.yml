@@ -9,6 +9,15 @@
     backup: yes
 
 - name: enable repos
- 
+  # I did it this way since these dont seem to have internet access
+  # Download this to the working directory http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+  ansible.builtin.copy:
+    src: internal.repo
+    dest: /etc/yum.repo.d/internal.repo
+    owner: root
+    group: root
+    mode: '0644'
+    backup: no
+    
 - name: install base tools and packages
 
