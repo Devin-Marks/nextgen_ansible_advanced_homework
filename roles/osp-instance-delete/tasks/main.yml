@@ -7,7 +7,7 @@
     register: result
   - name: print result
     debug:
-      msg: result['openstack_servers']
+      msg: "{{ result['openstack_servers'] }}"
 # deletes instances with 'QA' as the deployment name
   - name: Delete instances
     os_server:
