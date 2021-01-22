@@ -19,89 +19,60 @@
 #       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
 #       yum-config-manager --add-repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
 
-- name: add dev app server
+# This loop adds all of the servers from the vars file to OSP
+- name: add development servers
   os_server:
     cloud: openstack
-    name: app
-    image: rhel-7.6
-    key_name: ansible_ssh_key
-    flavor: m2.medium
-    security_groups: apps
-    delete_fip: yes
-    wait: no
+    name: "{{ item.name }}"
+    image: "{{ item.image }}"
+    key_name: "{{ item.key_name }}"
+    flavor: "{{ item.flavor }}"
+    security_groups: "{{ item.security_groups }}"
     state: "{{ instance_state | default('present') }}"
-    nics:
-      - net-name: int_network
-    meta: "group=apps, deployment_name=QA"
-    userdata: |
-      #!/bin/bash 
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
-      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+    nics: "{{ item.nics }}"
+    meta: "{{ item.meta }}"
+    userdata: "{{ item.userdata }}"
+  loop: "{{ osp_servers }}"
 
-- name: add db server
-  os_server:
-    cloud: openstack
-    name: db
-    image: rhel-7.6
-    key_name: ansible_ssh_key
-    flavor: m2.medium
-    security_groups: db
-    delete_fip: yes
-    wait: no
-    state: "{{ instance_state | default('present') }}"
-    nics:
-      - net-name: int_network
-    meta: "group=appdbs, deployment_name=QA"
-    userdata: |
-      #!/bin/bash 
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
-      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+# - name: add dev app server
+#   os_server:
+#     cloud: openstack
+#     name: app
+#     image: rhel-7.6
+#     key_name: ansible_ssh_key
+#     flavor: m2.medium
+#     security_groups: apps
+#     delete_fip: yes
+#     wait: no
+#     state: "{{ instance_state | default('present') }}"
+#     nics:
+#       - net-name: int_network
+#     meta: "group=apps, deployment_name=QA"
+#     userdata: |
+#       #!/bin/bash 
+#       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
+#       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
 
-- name: Add frontend server
-  os_server:
-    cloud: openstack
-    name: frontend
-    image: rhel-7.6
-    key_name: ansible_ssh_key
-    flavor: m2.medium
-    security_groups: frontend
-    delete_fip: yes
-    wait: no
-    state: "{{ instance_state | default('present') }}"
-    nics:
-      - net-name: int_network
-    meta: "group=frontends, deployment_name=QA"
-    userdata: |
-      #!/bin/bash 
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
-      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-
-- name: add floating IP to QA app server
+# This loop adds a floating IP to all of the development servers
+- name: add external floating IP to development server
   os_floating_ip:
     cloud: openstack
     state: present
     reuse: yes
-    server: app
+    server: "{{ item.name }}"
     network: ext_network
     wait: true
     timeout: 200
+  loop: "{{ osp_servers }}"
+    
 
-- name: add floating IP to QA db server
-  os_floating_ip:
-    cloud: openstack
-    state: present
-    reuse: yes
-    server: db
-    network: ext_network
-    wait: true
-    timeout: 200
+# - name: add floating IP to QA app server
+#   os_floating_ip:
+#     cloud: openstack
+#     state: present
+#     reuse: yes
+#     server: app
+#     network: ext_network
+#     wait: true
+#     timeout: 200
 
-- name: add floating IP to QA frontend server
-  os_floating_ip:
-    cloud: openstack
-    state: present
-    reuse: yes
-    server: frontend
-    network: ext_network
-    wait: true
-    timeout: 200
