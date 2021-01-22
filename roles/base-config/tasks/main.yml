@@ -20,7 +20,6 @@
     backup: no
     
 - name: install base tools and packages
-  become: true
   yum:
     name: 'vim'
     state: 'latest'
