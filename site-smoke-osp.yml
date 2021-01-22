@@ -14,15 +14,36 @@
     uri:
       url: "http://{{inventory_hostname}}/"
       return_content: yes
-    until: '"Ansible has done its job" not in webpage.content'
+    until: '"Ansible has done its job" in webpage.content'
     retries: 10
     delay: 1
     register: webpage
     delegate_to: localhost
 
   #Check load balancer for the proper response
+  - name: Fail if 'Ansible has done its job' is not in the page content
+    fail:
+    when: '"Ansible has done its job" not in webpage.results[0].content'
+    tags:
+      - osp.smoke
 
+- name: Check app servers for proper response
+  hosts: apps
+  gather_facts: false
+  tasks:
 
+  #Check app servers for proper response
+  - name: Curl website
+    uri:
+      url: "http://{{inventory_hostname}}/"
+      return_content: yes
+    until: '"Ansible has done its job" in webpage.content'
+    retries: 10
+    delay: 1
+    register: webpage
+    delegate_to: localhost
+
+  #Check load balancer for the proper response
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
     when: '"Ansible has done its job" not in webpage.results[0].content'
