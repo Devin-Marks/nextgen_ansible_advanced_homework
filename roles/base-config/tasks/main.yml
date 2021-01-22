@@ -8,11 +8,13 @@
     replace: 'Defaults  !requiretty'
     backup: yes
 
+#Ensures the repo directory is there
 - name: Create yum.repo.d directory
   file:
     path: /etc/yum.repos.d
     state: directory
 
+#Copies the repos from the template to the host
 - name: Enable repos from template
   template:
     src: repos_template.j2
@@ -21,6 +23,7 @@
     group: root
     mode: '0644'
     
+#Wasn't sure any base tools needed to be installed but I like vim
 - name: install base tools and packages
   yum:
     name: 'vim'

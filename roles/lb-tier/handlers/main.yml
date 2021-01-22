@@ -1,5 +1,5 @@
 ---
-
+#Changes the service name to a variable
 - name: restart {{ payload }}
   service:
     name: "{{ payload }}"

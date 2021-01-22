@@ -1,5 +1,6 @@
 ---
 # vars file for osp.servers
+#List of servers to add to openstack
 osp_servers:
   - name: frontend
     state: present

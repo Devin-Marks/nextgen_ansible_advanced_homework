@@ -1,4 +1,5 @@
 ---
+#Need to install Java for Tomcat to fonction properly
 - name: Install Java
   yum:
     name: java-1.8.0-openjdk-devel

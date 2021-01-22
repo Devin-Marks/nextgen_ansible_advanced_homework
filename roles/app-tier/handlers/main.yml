@@ -1,5 +1,5 @@
 ---
-
+#Renamed this and made the service actually restart
 - name: restart {{ payload }}
   service:
     name: "{{ payload }}"
