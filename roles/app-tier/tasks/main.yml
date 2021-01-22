@@ -1,2 +1,22 @@
 ---
 - name: Install Java
+  yum:
+    name: java-1.8.0-openjdk-devel
+    state: latest
+
+- name: Install {{ payload }}
+  yum:
+    name: "{{ payload }}"
+    state: latest
+
+- name: Copy web file to tomcat directory
+  template:
+    src: index.html.j2
+    dest: /usr/share/tomcat/webapps/ROOT
+  notify: restart {{ payload }}
+
+- name: Enable {{ payload }}
+  service:
+    name: "{{ payload }}"
+    state: started
+    enabled: true
