@@ -12,6 +12,6 @@
       cloud: openstack
       name: "{{ item['name'] }}"
       state: 'absent'
-    when: item.metadata[' deployment_name'] == 'QA'
+    when: item.metadata['deployment_name'] == 'QA'
     loop: "{{ result['openstack_servers'] }}"
    
