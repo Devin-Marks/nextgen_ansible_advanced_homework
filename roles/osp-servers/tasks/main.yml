@@ -7,7 +7,7 @@
     name: app1
     image: rhel-guest
     key_name: ansible_ssh
-    flavor: m2.medium
+    flavor: m1.medium
     security_groups: apps
     delete_fip: yes
     wait: no
@@ -17,7 +17,6 @@
     userdata: |
       #!/bin/bash 
       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-      yum-config-manager --add-repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
 
 # This loop adds all of the servers from the vars file to OSP
 # - name: add development servers
