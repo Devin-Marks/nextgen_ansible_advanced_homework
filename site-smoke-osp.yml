@@ -35,7 +35,7 @@
   #Check app servers for proper response
   - name: Curl website
     uri:
-      url: "http://{{inventory_hostname}}/"
+      url: "http://{{inventory_hostname}}:8080/"
       return_content: yes
     until: '"Ansible has done its job" in webpage.content'
     retries: 10
