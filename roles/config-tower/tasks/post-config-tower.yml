@@ -4,6 +4,8 @@
     description: "Created by config-tower role"
     organization: "Default"
     state: present
+    scm_type: git
+    scm_url: https://github.com/Devin-Marks/nextgen_ansible_advanced_homework
     tower_host: tower1."{{ tower_GUID }}".internal
     tower_username: admin
     tower_password: r3dh4t1!
