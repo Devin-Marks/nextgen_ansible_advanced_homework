@@ -21,7 +21,7 @@
     delegate_to: localhost
 
   - debug:
-      msg: webpage
+      msg: "{{ webpage }}"
 
   #Check load balancer for the proper response
   - name: Fail if 'Ansible has done its job' is not in the page content
