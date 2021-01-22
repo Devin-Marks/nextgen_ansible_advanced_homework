@@ -32,7 +32,7 @@
     nics: "{{ item.nics }}"
     meta: "{{ item.meta }}"
     userdata: "{{ item.userdata }}"
-  loop: "{{ osp_servers }}"
+  loop: {{ osp_servers }}
 
 # - name: add dev app server
 #   os_server:
