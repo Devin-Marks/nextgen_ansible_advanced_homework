@@ -6,7 +6,7 @@
     state: present
     scm_type: git
     scm_url: https://github.com/Devin-Marks/nextgen_ansible_advanced_homework
-    tower_host: 'tower1."{{ tower_GUID }}".example.opentlc.com'
+    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
     #tower_config_file: "~/.tower_cli.cfg"
@@ -18,7 +18,7 @@
     organization: Default
     state: present
     kind: ssh
-    tower_host: tower1."{{ tower_GUID }}".example.opentlc.com
+    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
     #tower_config_file: "~/.tower_cli.cfg"
@@ -41,7 +41,7 @@
     description: "workstation"
     inventory: "{{ static_inventory_name }}"
     state: present
-    tower_host: tower1."{{ tower_GUID }}".example.opentlc.com
+    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
     ssh_key_data: "/root/.ssh/openstack.pem"
@@ -59,7 +59,7 @@
     organization: Default
     state: present
     kind: ssh
-    tower_host: tower1."{{ tower_GUID }}".example.opentlc.com
+    tower_host: tower1.{{tower_GUID}}.example.opentlc.com
     tower_username: admin
     tower_password: r3dh4t1!
     tower_verify_ssl: no
