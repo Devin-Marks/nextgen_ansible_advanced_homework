@@ -11,7 +11,7 @@
 
 - name: Create yum.repo.d directory
   file:
-    path: {{ tomcat_web_root }}
+    path: "{{ tomcat_web_root }}"
     state: directory
 
 - name: Copy web file to tomcat directory
