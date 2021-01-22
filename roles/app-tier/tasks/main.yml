@@ -9,10 +9,15 @@
     name: "{{ payload }}"
     state: latest
 
+- name: Create yum.repo.d directory
+  file:
+    path: {{ tomcat_web_root }}
+    state: directory
+
 - name: Copy web file to tomcat directory
   template:
     src: index.html.j2
-    dest: /usr/share/tomcat/webapps/ROOT
+    dest: {{ tomcat_web_root }}/index.html
   notify: restart {{ payload }}
 
 - name: Enable {{ payload }}
