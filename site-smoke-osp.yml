@@ -1,6 +1,6 @@
 - name: Import dynamic inventory from osp
   hosts: workstation
-  gather_facts: true
+  gather_facts: false
   roles:
   - name: osp-facts
 
@@ -14,7 +14,7 @@
     uri:
       url: "http://{{ansible_host}}/"
       return_content: yes
-    until: '"Ansible has done its job" not in webpage.results[0].content'
+    until: '"Ansible has done its job" not in result.content'
     retries: 10
     delay: 1
     register: result
@@ -25,6 +25,6 @@
 
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
-    when: '"Ansible has done its job" not in webpage.results[0].content'
+    when: '"Ansible has done its job" not in result.content'
     tags:
       - osp.smoke
