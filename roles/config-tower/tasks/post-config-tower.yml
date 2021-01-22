@@ -1,5 +1,4 @@
 - name: Create Homework Assignment project
-  hosts: tower
   tower_project:
     name: "{{ proj_name }}"
     description: "Created by config-tower role"
