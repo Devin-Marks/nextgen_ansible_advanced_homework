@@ -10,7 +10,7 @@
     name: "{{ payload }}"
     state: latest
 
-- name: Create yum.repo.d directory
+- name: Create tomcat ROOT directory
   file:
     path: "{{ tomcat_web_root }}"
     state: directory

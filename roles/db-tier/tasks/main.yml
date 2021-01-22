@@ -1,0 +1,4 @@
+---
+#I dont see anywhere in the app or lb templates where the database is used
+#I also didnt see where in the instructions it mentions what to do with the db host
+#But this will still install postgres and make it accessible

@@ -1,11 +1,30 @@
-- hosts: workstation
+- name: Import dynamic inventory from osp
+  hosts: workstation
+  gather_facts: true
+  roles:
+  - name: osp-facts
+
+- name: Check frontend for proper response
+  hosts: frontends
   gather_facts: false
   tasks:
-  - name: OpenStack servers
+
+  #Check frontend servers for proper response
   - name: Curl website
+    uri:
+      url: "http://{{ansible_host}}/"
+      return_content: yes
+    until: '"Ansible has done its job" not in webpage.results[0].content'
+    retries: 10
+    delay: 1
+    register: result
+    delegate_to: localhost
+
+  #Check load balancer for the proper response
+
 
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
-    when: "'Ansible has done its job' not in webpage.results[0].content"
+    when: ''Ansible has done its job' not in webpage.results[0].content'
     tags:
       - osp.smoke
