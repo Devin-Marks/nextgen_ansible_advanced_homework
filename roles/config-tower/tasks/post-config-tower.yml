@@ -11,7 +11,6 @@
     #tower_config_file: "~/.tower_cli.cfg"
     ssh_key_data: "/root/.ssh/openstack.pem"
     tower_verify_ssl: no
-    username: cloud-user
 
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
