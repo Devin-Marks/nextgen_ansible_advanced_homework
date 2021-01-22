@@ -9,7 +9,7 @@
     tower_username: admin
     tower_password: r3dh4t1!
     #tower_config_file: "~/.tower_cli.cfg"
-    tower_verify_ssl: no
+    #tower_verify_ssl: no
 
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
