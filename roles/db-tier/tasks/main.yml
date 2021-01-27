@@ -2,3 +2,40 @@
 #I dont see anywhere in the app or lb templates where the database is used
 #I also didnt see where in the instructions it mentions what to do with the db host
 #But this will still install postgres and make it accessible
+- name: Install Postgres packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: 
+    - "{{ postgres_rhel7_repo }}"        
+    - "{{ postgres_packages }}"
+    - "{{ postgres_library }}"
+
+- name: Check if Postgres initialized
+  stat:
+    path: "{{ postgres_10_data_dir }}/PG_VERSION"
+  register: r_postgres_init_dir_state
+
+- name: Run Postgres initdb to initialize if postgres not initialized
+  command: "{{ postgres_10_bin_path }}/postgresql-10-setup initdb"
+  when: not r_postgres_init_dir_state.stat.exists
+  notify: restart_postgres
+
+- name: Setup Postgres for remote password auth
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{ postgres_10_data_dir }}/pg_hba.conf"
+  notify: restart_postgres
+
+- name: Setup Postgres to listen on network interfaces
+  lineinfile:
+    dest: "{{ postgres_10_data_dir }}/postgresql.conf"
+    line: "listen_addresses = '*'"
+    insertafter: "#listen_addresses"
+  notify: restart_postgres
+
+- name: Setup Postgres as started and enabled on boot.
+  service:
+    name: "{{ postgres_service }}"
+    state: "{{ postgres_service_state | default('started') }}"
+    enabled: "{{ postgres_service_enabled | default(true) }}"
